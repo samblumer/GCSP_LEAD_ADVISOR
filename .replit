@@ -1,0 +1,13 @@
+# Start both server and client (Replit "Run" button)
+run = "cd server && npm install && node index.js & cd client && npm install && npm run dev -- --port 5173"
+
+[nix]
+channel = "stable-23_11"
+
+[[ports]]
+localPort = 3001
+externalPort = 3001
+
+[[ports]]
+localPort = 5173
+externalPort = 80

@@ -1,0 +1,127 @@
+{
+  "frameworkName": "GCSP Leadership Attribute Framework",
+  "version": "2.0.0",
+  "ratings": ["Needs Improvement", "Meets Expectations", "Differentiating", "Strategic Impact"],
+  "dimensions": [
+    {
+      "id": "D1",
+      "name": "Client Impact",
+      "description": "Demonstrates measurable value delivery and deepened client relationships.",
+      "performanceBands": {
+        "NeedsImprovement": {
+          "signals": ["missed deadline", "client escalation", "quality issue", "incomplete deliverable", "client dissatisfied", "scope miss", "client complaint", "rework required"]
+        },
+        "MeetsExpectations": {
+          "signals": ["delivered on time", "met client expectations", "client satisfied", "completed deliverable", "quality output", "responsive to client", "on budget", "client feedback positive", "repeat engagement", "client trust"]
+        },
+        "Differentiating": {
+          "signals": ["exceeded client expectations", "proactive insight", "expanded client scope", "trusted advisor", "client referral", "innovative solution", "client commended", "went beyond", "client praised", "anticipate client needs", "client relationship deepened", "unsolicited praise"]
+        },
+        "StrategicImpact": {
+          "signals": ["transformative client outcome", "enterprise-wide impact", "client board", "strategic client partnership", "market-shifting", "executive sponsor", "drove major client decision", "named in client success", "flagship engagement", "led firm-wide client initiative"]
+        }
+      },
+      "attributes": [
+        { "id": "A1-1", "name": "Delivers measurable client outcomes" },
+        { "id": "A1-2", "name": "Builds trusted advisor relationships" },
+        { "id": "A1-3", "name": "Expands client engagement scope" }
+      ]
+    },
+    {
+      "id": "D2",
+      "name": "Growth in Revenue",
+      "description": "Contributes to pipeline, proposals, and revenue-generating activities.",
+      "performanceBands": {
+        "NeedsImprovement": {
+          "signals": ["missed revenue target", "no new business", "pipeline gap", "lost deal", "stalled pursuit", "fell short of target", "no proposals", "revenue shortfall"]
+        },
+        "MeetsExpectations": {
+          "signals": ["met revenue target", "proposal contribution", "supported pipeline", "extension secured", "renewed engagement", "contributed to pursuit", "pipeline contribution", "revenue generated", "supported business development", "proposal section"]
+        },
+        "Differentiating": {
+          "signals": ["exceeded revenue target", "closed new business", "new logo", "grew account", "pipeline generated", "led proposal win", "business development", "revenue exceeded", "won competitive deal", "expanded existing client revenue", "identified new opportunity", "drove new revenue"]
+        },
+        "StrategicImpact": {
+          "signals": ["significant revenue growth", "major deal closed", "market-making", "portfolio expansion", "opened new market", "revenue milestone", "flagship account", "transformative win", "revenue accountability", "built book of business"]
+        }
+      },
+      "attributes": [
+        { "id": "A2-1", "name": "Generates and closes new business" },
+        { "id": "A2-2", "name": "Expands existing client revenue" },
+        { "id": "A2-3", "name": "Builds and manages pipeline" }
+      ]
+    },
+    {
+      "id": "D3",
+      "name": "Market Eminence",
+      "description": "Raises the firm's and individual's profile in the market through thought leadership and external presence.",
+      "performanceBands": {
+        "NeedsImprovement": {
+          "signals": ["no external presence", "limited visibility", "no publications", "declined speaking", "missed eminence", "no market presence", "no thought leadership"]
+        },
+        "MeetsExpectations": {
+          "signals": ["published article", "conference attendance", "internal presentation", "webinar participant", "contributed to report", "industry event", "white paper", "blog post", "spoke at", "attended conference", "external presentation"]
+        },
+        "Differentiating": {
+          "signals": ["keynote speaker", "recognized expert", "industry award", "media coverage", "published thought leadership", "sought-after speaker", "named expert", "podcast guest", "media quote", "external recognition", "award recipient", "panelist", "invited speaker"]
+        },
+        "StrategicImpact": {
+          "signals": ["global recognition", "industry board chair", "bestselling", "policy influence", "national keynote", "defines industry agenda", "widely cited", "market-defining publication", "industry standard-setter", "thought leader", "national publication", "book published"]
+        }
+      },
+      "attributes": [
+        { "id": "A3-1", "name": "Creates and publishes thought leadership" },
+        { "id": "A3-2", "name": "Represents firm at external forums" },
+        { "id": "A3-3", "name": "Builds personal brand and market presence" }
+      ]
+    },
+    {
+      "id": "D4",
+      "name": "People & Teams",
+      "description": "Develops talent, leads teams, and builds an inclusive high-performance culture.",
+      "performanceBands": {
+        "NeedsImprovement": {
+          "signals": ["team attrition", "performance issue", "feedback gap", "team conflict", "low morale", "failed to develop", "retention problem", "poor team results", "team dissatisfied"]
+        },
+        "MeetsExpectations": {
+          "signals": ["mentored staff", "provided feedback", "team performance met", "developed junior", "inclusive environment", "coached team member", "consistent feedback", "team lead", "managed team", "developed staff", "career development", "onboarded new hire"]
+        },
+        "Differentiating": {
+          "signals": ["high-performing team", "promoted team member", "recognized mentor", "talent advocate", "built inclusive culture", "exceptional team results", "above-average retention", "developed high potential", "team commended", "outstanding team culture", "championed inclusion", "goes beyond developing"]
+        },
+        "StrategicImpact": {
+          "signals": ["built practice capability", "talent strategy", "succession plan", "firmwide culture", "developed next generation", "transformed team performance", "people initiative", "leadership pipeline", "org design", "DE&I program", "built high-performing organization"]
+        }
+      },
+      "attributes": [
+        { "id": "A4-1", "name": "Develops and retains talent" },
+        { "id": "A4-2", "name": "Builds inclusive team culture" },
+        { "id": "A4-3", "name": "Provides effective performance feedback" }
+      ]
+    },
+    {
+      "id": "D5",
+      "name": "Firm Citizenship",
+      "description": "Contributes to firm-building activities, internal initiatives, and organizational health.",
+      "performanceBands": {
+        "NeedsImprovement": {
+          "signals": ["limited firm contribution", "absent from initiatives", "minimal internal involvement", "disengaged from firm", "no internal contributions", "missed firm commitments"]
+        },
+        "MeetsExpectations": {
+          "signals": ["participated in recruiting", "knowledge sharing", "committee member", "firm events", "supported internal initiative", "ERG participation", "training contribution", "internal committee", "onboarding support", "recruiting support"]
+        },
+        "Differentiating": {
+          "signals": ["led internal initiative", "recruiting lead", "cross-practice collaboration", "developed firm capability", "knowledge management", "firmwide contribution", "drove internal program", "innovation champion", "mentoring program lead", "process improvement", "led practice building"]
+        },
+        "StrategicImpact": {
+          "signals": ["firmwide program leadership", "shaped firm policy", "governance committee", "strategic firm initiative", "cross-service line impact", "firmwide strategy", "transformative firm impact", "partner-level firm commitment", "firm policy", "firm leadership", "board committee"]
+        }
+      },
+      "attributes": [
+        { "id": "A5-1", "name": "Drives internal initiatives and firm-building" },
+        { "id": "A5-2", "name": "Contributes to recruiting and onboarding" },
+        { "id": "A5-3", "name": "Advances firm culture and inclusion" }
+      ]
+    }
+  ]
+}
