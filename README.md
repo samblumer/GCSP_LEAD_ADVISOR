@@ -1,115 +1,172 @@
 # GCSP Lead Advisor
 
-An internal EY tool for preparing calibration reviews of Global Client Service Professionals (GCSPs).  
-It uses a **fully deterministic, offline engine** — no external APIs, no LLMs — to score five leadership dimensions against a keyword-signal framework and produce structured talking points, goals, and an exportable summary.
+An internal EY tool for preparing calibration reviews of Global Client Service Professionals (GCSPs). It uses a **fully deterministic, offline engine** — no external APIs, no LLMs — to score five leadership dimensions against a keyword-signal framework and produce evidence-based assessments, structured talking points, development actions, and an exportable summary.
 
 ---
 
-## Quick start (two terminals)
+## Prerequisites
+
+Make sure the following are installed before you begin:
+
+| Requirement | Version | Download |
+|---|---|---|
+| Node.js | v18 or higher | https://nodejs.org |
+| npm | Comes with Node.js | — |
+| Git | Any recent version | https://git-scm.com |
+
+Verify your installation:
+```bash
+node --version   # should print v18.x.x or higher
+npm --version
+```
+
+---
+
+## Getting started (clone → run)
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/samblumer/GCSP_LEAD_ADVISOR.git
+cd GCSP_LEAD_ADVISOR
+```
+
+### 2. Install server dependencies
+
+```bash
+cd server
+npm install
+```
+
+### 3. Install client dependencies
+
+```bash
+cd ../client
+npm install
+```
+
+### 4. Start both servers
+
+You need **two separate terminal windows/tabs** open at the same time.
 
 **Terminal 1 — API server (port 3001)**
 ```bash
 cd server
-npm install       # first time only
 node index.js
 ```
+You should see: `GCSP Advisor API listening on port 3001`
 
 **Terminal 2 — React client (port 5173)**
 ```bash
 cd client
-npm install       # first time only
 npm run dev
 ```
+You should see: `VITE ready in ... ms ➜ Local: http://localhost:5173/`
 
-Open [http://localhost:5173](http://localhost:5173).  
-The Vite dev server automatically proxies `/api/*` requests to `localhost:3001`.
+### 5. Open the app
+
+Go to **http://localhost:5173** in your browser.
+
+> The Vite dev server automatically proxies all `/api/*` requests to `localhost:3001`, so both must be running.
 
 ---
 
 ## Quick demo
 
-1. Click **Load Sample Data** (Sarah Mitchell — Differentiating) on the Input screen.  
-2. Click **Analyze**.  
-3. Explore the three tabs:
-   - **Calibration** — per-dimension strength badges, evidence, and gap highlights  
-   - **Talking Points** — structured opener, strengths, developmental feedback, pushback handling  
-   - **Goals** — 90-day / 6-month development goals aligned to gap dimensions  
+1. Click **Load Sample Data** on the Input screen (pre-fills Sarah Mitchell at Differentiating).
+2. Click **Analyze**.
+3. Explore the three tabs on the results screen:
+   - **Calibration** — per-dimension evidence strength (Strong / Moderate / Thin), proof point gaps, and what would strengthen the case
+   - **Talking Points** — structured opener, strengths, developmental feedback, and pushback responses
+   - **Goals** — development actions focused on dimensions with insufficient evidence
 4. Click **Continue to Export**, then **Export Summary (.md)** to download a ready-to-share Markdown file.
+
+---
+
+## Understanding the output
+
+| Field | What it means |
+|---|---|
+| **Assessment** | Whether the documented evidence *Supports*, *Partially Supports*, or *Does Not Support* the suggested rating |
+| **Evidence Supports** | The highest rating band where the majority of dimensions have sufficient proof points |
+| **Evidence Aligns To** | The band whose signal language appears most frequently in the narrative |
+| **Confidence** | Score derived from strong/moderate dimension counts — not artificially inflated |
 
 ---
 
 ## Project layout
 
 ```
-/
+GCSP_LEAD_ADVISOR/
 ├── server/
-│   ├── index.js                        # Express entry point
+│   ├── index.js                    # Express API entry point (port 3001)
+│   ├── package.json
 │   ├── engine/
-│   │   └── analysisEngine.js           # Deterministic scoring engine
+│   │   └── analysisEngine.js       # Deterministic scoring engine
 │   └── framework/
-│       └── attributeFramework.json     # 5 dimensions × 6 tiers of keyword signals
-└── client/
-    ├── index.html                      # EY body styles + font
-    └── src/
-        ├── App.jsx                     # Router shell, shared state
-        └── pages/
-            ├── Input.jsx               # Screen 1 — form + sample data
-            ├── Analysis.jsx            # Screen 2 — calibration tabs
-            └── Export.jsx              # Screen 3 — markdown download
+│       └── attributeFramework.json # 5 dimensions × 4 performance bands × keyword signals
+├── client/
+│   ├── index.html
+│   ├── package.json
+│   ├── vite.config.js              # Proxy config (/api → :3001)
+│   └── src/
+│       ├── App.jsx                 # Router + layout
+│       ├── main.jsx
+│       └── pages/
+│           ├── Input.jsx           # Screen 1 — narrative input form
+│           ├── Analysis.jsx        # Screen 2 — results, tabs, verdict card
+│           └── Export.jsx          # Screen 3 — summary export
+└── .gitignore
 ```
 
 ---
 
 ## How the engine works
 
-The engine (**`server/engine/analysisEngine.js`**) works in three steps:
+The engine (`server/engine/analysisEngine.js`) works in three steps:
 
-1. **Corpus assembly** — combines `narrative`, `accomplishments`, and `reviewerObservations` into a single lowercase text blob.  
-2. **Signal scoring** — for each of the 5 dimensions it counts exact-phrase and keyword hits from the tier signals defined in `attributeFramework.json`.  
-   - **Strong** = ≥3 hits _or_ ≥40 % of available signals matched  
-   - **Thin** = 0 hits  
-   - **Moderate** = everything in between  
-3. **Verdict** — the engine counts Strong and Thin dimensions, then adjusts the suggested rating up or down by one tier.  
-   - ≥3 Strong → Upgrade  
-   - ≥2 Thin → Downgrade  
-   - Otherwise → KeepSame
+1. **Corpus assembly** — combines `narrative`, `accomplishments`, and `reviewerObservations` into a single text blob.
+2. **Signal scoring** — for each of the 5 dimensions, counts exact-phrase hits from the `performanceBands` signals defined in `attributeFramework.json` for the suggested rating band.
+   - **Strong** = ≥3 hits or ≥40% of available signals matched
+   - **Thin** = 0 hits
+   - **Moderate** = everything in between
+3. **Assessment** — counts Strong and Thin dimensions across all 5:
+   - ≥3 Thin → **Does Not Support**
+   - ≥3 Strong and ≤1 Thin → **Supports**
+   - Otherwise → **Partially Supports**
 
-**Rating → tier mapping** (applied in `server/index.js` before calling the engine):
-
-| UI label | Engine tier |
-|---|---|
-| Strategic Impact | Director |
-| Differentiating | Senior Manager |
-| Meets Expectation | Manager |
-| Needs Improvement | Senior Associate |
-
-Any unrecognised label defaults to **Manager**.
+`supportedRating` is computed separately: the highest band where ≥3 dimensions reach Moderate or better — the rating the evidence actually demonstrates.
 
 ---
 
 ## Editing the framework
 
-Open **`server/framework/attributeFramework.json`**.  
-Structure:
+Open `server/framework/attributeFramework.json`. Structure per dimension:
+
 ```jsonc
-[
-  {
-    "dimension": "Client Impact",
-    "attributes": [ ... ],   // 3 attributes with id + name
-    "tiers": {
-      "Associate":       { "signals": ["keyword a", "phrase b", ...] },
-      "Senior Associate": { ... },
-      "Manager":         { ... },
-      "Senior Manager":  { ... },
-      "Director":        { ... },
-      "Partner":         { ... }
-    }
-  },
-  ...
-]
+{
+  "name": "Client Impact",
+  "attributes": [ { "id": "CI-1", "name": "..." }, ... ],
+  "performanceBands": {
+    "NeedsImprovement":  { "signals": ["missed deadline", ...] },
+    "MeetsExpectations": { "signals": ["delivered on time", ...] },
+    "Differentiating":   { "signals": ["exceeded client expectations", ...] },
+    "StrategicImpact":   { "signals": ["transformative client outcome", ...] }
+  }
+}
 ```
-Add, remove, or edit signals in any tier to tune the scoring for your real population.  
-The engine re-reads the file on every server start (no hot reload needed — just restart `node index.js`).
+
+Add, remove, or edit signals to tune scoring for your population. The engine re-reads the file on every server start — just restart `node index.js` to pick up changes.
+
+---
+
+## Troubleshooting
+
+**"Cannot connect to API"** — make sure the server terminal is still running (`node index.js` in `server/`). Both terminals must stay open while using the app.
+
+**Analysis returns all Thin** — the narrative is too short or uses language that doesn't match the signal keywords. Try using the **Load Sample Data** button to see what well-evidenced input looks like.
+
+**Port already in use** — another process is on 3001 or 5173. Stop it, or change the port in `server/index.js` (update `vite.config.js` proxy target to match).
 
 ---
 
@@ -117,57 +174,10 @@ The engine re-reads the file on every server start (no hot reload needed — jus
 
 ```bash
 cd client
-npm run build     # outputs to client/dist/
+npm run build    # outputs to client/dist/
 ```
 
-Serve `client/dist/` as static files from the Express server or any CDN of your choice.
-
----
-
-## EY brand colours used
-
-| Token | Hex |
-|---|---|
-| Charcoal (nav, headings) | `#2E2E38` |
-| Yellow (CTA, active tab) | `#FFE600` |
-| Deep dark (text on yellow) | `#1A1A24` |
-| Off-white (page background) | `#F6F6FA` |
-| Red (errors, gaps) | `#C4313A` |
-| Green (success, Strong) | `#168736` |
-| Gray (secondary text) | `#747480` |
-| Border | `#D7D7DC` |
-
-├── server/
-│   ├── package.json
-│   └── index.js          ← Express, POST /api/analyze
-└── client/
-    ├── package.json
-    ├── vite.config.js     ← proxies /api → localhost:3001
-    ├── index.html
-    └── src/
-        ├── main.jsx
-        ├── App.jsx        ← React Router shell + nav
-        └── pages/
-            ├── Input.jsx  ← textarea + Analyze button
-            ├── Analysis.jsx
-            └── Export.jsx
-```
-
-## Quick start (two terminals)
-
-**Terminal 1 — server**
-```bash
-cd server
-npm install
-npm run dev        # node --watch, port 3001
-```
-
-**Terminal 2 — client**
-```bash
-cd client
-npm install
-npm run dev        # vite dev server, port 5173
-```
+The `dist/` folder can be served as static files from Express or any CDN.
 
 Then open http://localhost:5173.  
 Vite proxies every `/api/*` request to `http://localhost:3001`.
